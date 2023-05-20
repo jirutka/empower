@@ -1,7 +1,7 @@
 empower
 ================================
 
-[![Build Status][travis-image]][travis-url]
+[![Build Status][actions-ci-image]][actions-ci-url]
 [![NPM package][npm-image]][npm-url]
 [![Bower package][bower-image]][bower-url]
 [![Dependency Status][depstat-image]][depstat-url]
@@ -232,8 +232,8 @@ Licensed under the [MIT](https://github.com/power-assert-js/empower/blob/master/
 [bower-url]: https://badge.fury.io/bo/empower
 [bower-image]: https://badge.fury.io/bo/empower.svg
 
-[travis-url]: https://travis-ci.org/power-assert-js/empower
-[travis-image]: https://secure.travis-ci.org/power-assert-js/empower.svg?branch=master
+[actions-ci-url]: https://github.com/power-assert-js/empower/actions?query=workflow%3A%22CI%22
+[actions-ci-image]: https://github.com/power-assert-js/empower/workflows/CI/badge.svg
 
 [depstat-url]: https://gemnasium.com/power-assert-js/empower
 [depstat-image]: https://gemnasium.com/power-assert-js/empower.svg
