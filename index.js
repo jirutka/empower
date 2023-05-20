@@ -10,7 +10,6 @@
 var empowerCore = require('empower-core');
 var defaultOptions = require('./lib/default-options');
 var capturable = require('./lib/capturable');
-var assign = require('core-js/library/fn/object/assign');
 var define = require('./lib/define-properties');
 
 /**
@@ -21,7 +20,7 @@ var define = require('./lib/define-properties');
  * @return enhanced assert function/object
  */
 function empower (assert, formatter, options) {
-    var config = assign(defaultOptions(), options);
+    var config = Object.assign(defaultOptions(), options);
     var eagerEvaluation = !(config.modifyMessageOnRethrow || config.saveContextOnRethrow);
     // see: https://github.com/power-assert-js/empower/pull/26
     var shouldRecreateAssertionError = (function isStackUnchanged () {
@@ -40,7 +39,7 @@ function empower (assert, formatter, options) {
         return !(/REPLACED MESSAGE/.test(ae.stack)) && /123 === 456/.test(ae.stack);
     })();
 
-    var empowerCoreConfig = assign(config, {
+    var empowerCoreConfig = Object.assign(config, {
         modifyMessageBeforeAssert: function (beforeAssertEvent) {
             var message = beforeAssertEvent.originalMessage;
             if (!eagerEvaluation) {

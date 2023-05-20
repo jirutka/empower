@@ -12,13 +12,11 @@
  * call-signature:
  *   license: MIT (http://opensource.org/licenses/MIT)
  *   author: James Talmage <james@talmage.io>
- *   homepage: https://github.com/jamestalmage/call-signature#readme
  *   version: 0.0.2
  *
  * core-js:
  *   license: MIT (http://opensource.org/licenses/MIT)
- *   homepage: https://github.com/zloirock/core-js#readme
- *   version: 2.5.7
+ *   version: 2.6.12
  *
  * empower-core:
  *   license: MIT (http://opensource.org/licenses/MIT)
@@ -42,7 +40,6 @@
 var empowerCore = _dereq_('empower-core');
 var defaultOptions = _dereq_('./lib/default-options');
 var capturable = _dereq_('./lib/capturable');
-var assign = _dereq_('core-js/library/fn/object/assign');
 var define = _dereq_('./lib/define-properties');
 
 /**
@@ -53,7 +50,7 @@ var define = _dereq_('./lib/define-properties');
  * @return enhanced assert function/object
  */
 function empower (assert, formatter, options) {
-    var config = assign(defaultOptions(), options);
+    var config = Object.assign(defaultOptions(), options);
     var eagerEvaluation = !(config.modifyMessageOnRethrow || config.saveContextOnRethrow);
     // see: https://github.com/power-assert-js/empower/pull/26
     var shouldRecreateAssertionError = (function isStackUnchanged () {
@@ -72,7 +69,7 @@ function empower (assert, formatter, options) {
         return !(/REPLACED MESSAGE/.test(ae.stack)) && /123 === 456/.test(ae.stack);
     })();
 
-    var empowerCoreConfig = assign(config, {
+    var empowerCoreConfig = Object.assign(config, {
         modifyMessageBeforeAssert: function (beforeAssertEvent) {
             var message = beforeAssertEvent.originalMessage;
             if (!eagerEvaluation) {
@@ -126,7 +123,7 @@ function buildPowerAssertText (formatter, message, context) {
 empower.defaultOptions = defaultOptions;
 module.exports = empower;
 
-},{"./lib/capturable":2,"./lib/default-options":3,"./lib/define-properties":4,"core-js/library/fn/object/assign":10,"empower-core":67}],2:[function(_dereq_,module,exports){
+},{"./lib/capturable":2,"./lib/default-options":3,"./lib/define-properties":4,"empower-core":67}],2:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = function capturable () {
@@ -170,25 +167,20 @@ module.exports = function capturable () {
 'use strict';
 
 var empowerCore = _dereq_('empower-core');
-var assign = _dereq_('core-js/library/fn/object/assign');
 
 module.exports = function defaultOptions () {
-    return assign(empowerCore.defaultOptions(), {
+    return Object.assign(empowerCore.defaultOptions(), {
         modifyMessageOnRethrow: false,
         saveContextOnRethrow: false
     });
 };
 
-},{"core-js/library/fn/object/assign":10,"empower-core":67}],4:[function(_dereq_,module,exports){
+},{"empower-core":67}],4:[function(_dereq_,module,exports){
 'use strict';
 
-var defineProperty = _dereq_('core-js/library/fn/object/define-property');
-var forEach = _dereq_('core-js/library/fn/array/for-each');
-var keys = _dereq_('core-js/library/fn/object/keys');
-
 module.exports = function defineProperties (obj, map) {
-    forEach(keys(map), function (name) {
-        defineProperty(obj, name, {
+    Object.keys(map).forEach(name => {
+        Object.defineProperty(obj, name, {
             configurable: true,
             enumerable: false,
             value: map[name],
@@ -197,7 +189,7 @@ module.exports = function defineProperties (obj, map) {
     });
 };
 
-},{"core-js/library/fn/array/for-each":7,"core-js/library/fn/object/define-property":12,"core-js/library/fn/object/keys":13}],5:[function(_dereq_,module,exports){
+},{}],5:[function(_dereq_,module,exports){
 'use strict';
 module.exports.parse = parse;
 module.exports.generate = generate;
@@ -438,7 +430,7 @@ module.exports = function (it) {
 };
 
 },{}],21:[function(_dereq_,module,exports){
-var core = module.exports = { version: '2.5.7' };
+var core = module.exports = { version: '2.6.12' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],22:[function(_dereq_,module,exports){
@@ -623,6 +615,7 @@ module.exports = true;
 },{}],38:[function(_dereq_,module,exports){
 'use strict';
 // 19.1.2.1 Object.assign(target, source, ...)
+var DESCRIPTORS = _dereq_('./_descriptors');
 var getKeys = _dereq_('./_object-keys');
 var gOPS = _dereq_('./_object-gops');
 var pIE = _dereq_('./_object-pie');
@@ -652,11 +645,14 @@ module.exports = !$assign || _dereq_('./_fails')(function () {
     var length = keys.length;
     var j = 0;
     var key;
-    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || isEnum.call(S, key)) T[key] = S[key];
+    }
   } return T;
 } : $assign;
 
-},{"./_fails":28,"./_iobject":34,"./_object-gops":42,"./_object-keys":44,"./_object-pie":45,"./_to-object":55}],39:[function(_dereq_,module,exports){
+},{"./_descriptors":24,"./_fails":28,"./_iobject":34,"./_object-gops":42,"./_object-keys":44,"./_object-pie":45,"./_to-object":55}],39:[function(_dereq_,module,exports){
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = _dereq_('./_an-object');
 var dPs = _dereq_('./_object-dps');
@@ -806,7 +802,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 })('versions', []).push({
   version: core.version,
   mode: _dereq_('./_library') ? 'pure' : 'global',
-  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
 });
 
 },{"./_core":21,"./_global":29,"./_library":37}],50:[function(_dereq_,module,exports){
@@ -1324,6 +1320,22 @@ function onSuccess(successEvent) {
 }
 
 },{}],71:[function(_dereq_,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"core-js/library/fn/array/for-each":7,"core-js/library/fn/object/define-property":12,"core-js/library/fn/object/keys":13,"dup":4}]},{},[1])(1)
+'use strict';
+
+var defineProperty = _dereq_('core-js/library/fn/object/define-property');
+var forEach = _dereq_('core-js/library/fn/array/for-each');
+var keys = _dereq_('core-js/library/fn/object/keys');
+
+module.exports = function defineProperties (obj, map) {
+    forEach(keys(map), function (name) {
+        defineProperty(obj, name, {
+            configurable: true,
+            enumerable: false,
+            value: map[name],
+            writable: true
+        });
+    });
+};
+
+},{"core-js/library/fn/array/for-each":7,"core-js/library/fn/object/define-property":12,"core-js/library/fn/object/keys":13}]},{},[1])(1)
 });
