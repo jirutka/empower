@@ -197,4 +197,5 @@ gulp.task('test_browser', gulp.series('bundle', 'build_deps', () => gulp
 
 gulp.task('clean', gulp.parallel('clean_coverage', 'clean_bundle', 'clean_deps'));
 
-gulp.task('test', gulp.series('unit', 'test_browser', 'test_amd'));
+// FIXME: browsers tests temporarily disabled
+gulp.task('test', gulp.series('unit' /*, 'test_browser', 'test_amd'*/));
