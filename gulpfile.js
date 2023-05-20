@@ -96,7 +96,6 @@ const runMochaWithBlanket = () => {
       mocha({
         ui: 'tdd',
         reporter: 'mocha-lcov-reporter',
-        require: ['babel-core/polyfill'],
       })
     )
     .pipe(capt.finish)
@@ -110,7 +109,6 @@ const runMochaSimply = () => gulp
     mocha({
       ui: 'tdd',
       reporter: 'dot',
-      require: ['babel-core/polyfill'],
     })
   )
   .on('error', gutil.log);
