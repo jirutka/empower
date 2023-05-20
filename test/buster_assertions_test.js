@@ -30,7 +30,7 @@
                 'assert.near(actual, expected, delta, [message])'
             ]
         };
-        var jsAST = acorn.parse(line, {ecmaVersion: 6, locations: true, sourceType: 'module', sourceFile: filepath});
+        var jsAST = acorn.parse(line, {ecmaVersion: 8, locations: true, sourceType: 'module', sourceFile: filepath});
         var espoweredAST = espower(jsAST, espowerOptions);
         return escodegen.generate(espoweredAST, {format: {compact: true}});
     },

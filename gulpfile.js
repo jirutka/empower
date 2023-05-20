@@ -25,12 +25,6 @@ const config = {
     destDir: './build',
     destName: 'assert.js',
   },
-  acorn_es7_plugin_bundle: {
-    standalone: 'acornEs7Plugin',
-    require: 'acorn-es7-plugin',
-    destDir: './build',
-    destName: 'acorn-es7-plugin.js',
-  },
   escodegen_bundle: {
     standalone: 'escodegen',
     srcFile: './node_modules/escodegen/escodegen.js',
@@ -48,7 +42,7 @@ const config = {
   },
 };
 
-const BUILDS = ['assert', 'escodegen', 'acorn_es7_plugin'];
+const BUILDS = ['assert', 'escodegen'];
 
 const captureStdout = (filespec) => {
   let orig;

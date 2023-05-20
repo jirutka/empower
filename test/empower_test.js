@@ -2,24 +2,21 @@
     'use strict';
 
     if (typeof define === 'function' && define.amd) {
-        define(['empower', 'espower', 'acorn', 'acorn-es7-plugin', 'babel', 'escodegen', 'assert'], factory);
+        define(['empower', 'espower', 'acorn', 'babel', 'escodegen', 'assert'], factory);
     } else if (typeof exports === 'object') {
-        factory(require('..'), require('espower'), require('acorn'), require('acorn-es7-plugin'), require('babel-core'), require('escodegen'), require('assert'));
+        factory(require('..'), require('espower'), require('acorn'), require('babel-core'), require('escodegen'), require('assert'));
     } else {
-        factory(root.empower, root.espower, root.acorn, root.acornEs7Plugin, root.babel, root.escodegen, root.assert);
+        factory(root.empower, root.espower, root.acorn, root.babel, root.escodegen, root.assert);
     }
 }(this, function (
     empower,
     espower,
     acorn,
-    acornEs7Plugin,
     babel,
     escodegen,
     baseAssert
 ) {
     'use strict';
-
-    acornEs7Plugin(acorn);
 
     var weave = function (line, patterns) {
         var filepath = '/absolute/path/to/project/test/some_test.js';
@@ -32,7 +29,7 @@
         if (patterns) {
             espowerOptions.patterns = patterns;
         }
-        var jsAST = acorn.parse(line, {ecmaVersion: 7, locations: true, sourceType: 'module', sourceFile: filepath, plugins: {asyncawait: true}});
+        var jsAST = acorn.parse(line, {ecmaVersion: 8, locations: true, sourceType: 'module', sourceFile: filepath});
         var espoweredAST = espower(jsAST, espowerOptions);
         var code = escodegen.generate(espoweredAST, {format: {compact: true}});
         return babel.transform(code).code;
