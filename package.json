@@ -27,7 +27,7 @@
     "buster-assertions": "^0.10.4",
     "del": "^6.1.0",
     "escodegen": "^2.0.0",
-    "espower": "^1.2.1",
+    "espower": "^2.1.0",
     "gulp": "^4.0.2",
     "gulp-derequire": "^3.0.0",
     "gulp-dereserve": "^0.2.1",
